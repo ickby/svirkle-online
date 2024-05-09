@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from http.server import HTTPServer, SimpleHTTPRequestHandler, run  # type: ignore
+from http.server import HTTPServer, SimpleHTTPRequestHandler  # type: ignore
 from pathlib import Path
 import os
 import sys
@@ -32,7 +32,8 @@ def serve(root, port, run_browser):
         print("Opening the served URL in the default browser (use `--no-browser` or `-n` to disable this).")
         shell_open(f"http://127.0.0.1:{port}")
 
-    run(handler_class=CORSRequestHandler, server_class=HTTPServer, server_address=('0.0.0.0', port))
+    httpd = HTTPServer(('0.0.0.0', port), CORSRequestHandler)
+    httpd.serve_forever()
 
 
 if __name__ == "__main__":
